@@ -11,7 +11,7 @@ import com.prm.cursosp.services.exceptions.ObjectNotFoundException;
 public class CategoriaService {
 
 	@Autowired
-	CategoriaRepository categoriaRepository;
+	private CategoriaRepository categoriaRepository;
 
 	public Categoria buscar(int id) {
 		Categoria obj = categoriaRepository.findOne(id);
