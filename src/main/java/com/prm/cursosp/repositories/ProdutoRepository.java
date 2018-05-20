@@ -7,5 +7,5 @@ import com.prm.cursosp.domain.Produto;
 
 @Repository
 public interface ProdutoRepository  extends JpaRepository<Produto, Integer>{
-
+	
 }
