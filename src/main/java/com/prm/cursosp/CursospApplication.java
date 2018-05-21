@@ -133,5 +133,6 @@ public class CursospApplication implements CommandLineRunner {
 		pedidoRepository.save(Arrays.asList(ped1, ped2));
 		pagamentoRepository.save(Arrays.asList(pagto1, pagto2));
 		itemPedidoRepository.save(Arrays.asList(ip1,ip2,ip3));
+		
 	}
 }
