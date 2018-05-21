@@ -22,4 +22,9 @@ public class CategoriaService {
 		return obj;
 	}
 
+	public Categoria insert(Categoria obj) {
+		obj.setId(null); // garante que o objeto tem ID nulo e com isso vai se tratar de uma inserção
+		return categoriaRepository.save(obj);
+	}
+	
 }
