@@ -98,9 +98,4 @@ public class ItemPedido implements Serializable {
 		return true;
 	}
 	
-	
-		
-	
-	
-	
 }
