@@ -13,7 +13,7 @@ public class CategoriaService {
 	@Autowired
 	private CategoriaRepository categoriaRepository;
 
-	public Categoria buscar(int id) {
+	public Categoria find(int id) {
 		Categoria obj = categoriaRepository.findOne(id);
 		if (obj == null) {
 			throw new ObjectNotFoundException(
@@ -23,8 +23,12 @@ public class CategoriaService {
 	}
 
 	public Categoria insert(Categoria obj) {
-		obj.setId(null); // garante que o objeto tem ID nulo e com isso vai se tratar de uma inserção
+		obj.setId(null); // Garante que o objeto tem ID nulo e com isso vai se tratar de uma inserção
 		return categoriaRepository.save(obj);
 	}
 	
+	public Categoria update(Categoria obj) {
+		find(obj.getId()); // Busca o objeto no banco, caso não exista já lança uma exceção do método find
+		return categoriaRepository.save(obj);
+	}
 }
