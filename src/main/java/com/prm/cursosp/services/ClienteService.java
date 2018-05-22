@@ -1,10 +1,18 @@
 package com.prm.cursosp.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.prm.cursosp.domain.Cliente;
+import com.prm.cursosp.dto.ClienteDTO;
 import com.prm.cursosp.repositories.ClienteRepository;
+import com.prm.cursosp.services.exceptions.DataIntegrityException;
 import com.prm.cursosp.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -20,6 +28,41 @@ public class ClienteService {
 					"Objeto não encontrado, Id: " + id + ", Tipo: " + Cliente.class.getName());
 		}
 		return cliente;
+	}
+
+	public Cliente update(Cliente obj) {
+		Cliente newObj = find(obj.getId()); // Busca o objeto no banco, caso não exista já lança uma exceção do método find
+		updateData(newObj, obj);
+		return clienteRepository.save(newObj);
+	}
+
+	public void delete(Integer id) {
+		Cliente obj = find(id);
+
+		try {
+			clienteRepository.delete(obj.getId());
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Não é possível excluir uma Cliente que possue associações");
+		}
+	}
+
+	public List<Cliente> findAll() {
+		return clienteRepository.findAll();
+	}
+	
+	public Page<Cliente> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
+		PageRequest pageRequest = new PageRequest(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		
+		return clienteRepository.findAll(pageRequest);
+	}
+	
+	public Cliente fromDTO(ClienteDTO objDTO) {
+		return new Cliente(objDTO.getId(), objDTO.getNome(), objDTO.getEmail(), null, null);
+	}
+	
+	private void updateData(Cliente newObj, Cliente obj) {
+		newObj.setNome(obj.getNome());
+		newObj.setEmail(obj.getEmail());
 	}
 
 }
