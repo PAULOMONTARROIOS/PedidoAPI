@@ -61,7 +61,7 @@ public class ClienteService {
 		try {
 			clienteRepository.delete(obj.getId());
 		} catch (DataIntegrityViolationException e) {
-			throw new DataIntegrityException("Não é possível excluir uma Cliente que possue associações");
+			throw new DataIntegrityException("Não é possível excluir uma Cliente que possue Pedidos associados");
 		}
 	}
 
