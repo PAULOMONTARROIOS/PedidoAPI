@@ -1,5 +1,6 @@
 package com.prm.cursosp.resources;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.prm.cursosp.domain.Cliente;
 import com.prm.cursosp.dto.ClienteDTO;
+import com.prm.cursosp.dto.ClienteNewDTO;
 import com.prm.cursosp.services.ClienteService;
 
 @RestController
@@ -69,6 +72,16 @@ public class ClienteResource {
 		Page<ClienteDTO> listDTO = list.map(obj -> new ClienteDTO(obj));
 
 		return ResponseEntity.ok().body(listDTO);
+	}
+	
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity<ClienteNewDTO> insert(@Valid @RequestBody ClienteNewDTO objDto){
+		Cliente obj = clienteService.fromDTO(objDto);
+		obj = clienteService.insert(obj);
+		
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+		
+		return ResponseEntity.created(uri).build();
 	}
 
 	
