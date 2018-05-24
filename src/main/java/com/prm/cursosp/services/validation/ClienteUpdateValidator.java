@@ -16,8 +16,6 @@ import com.prm.cursosp.dto.ClienteDTO;
 import com.prm.cursosp.repositories.ClienteRepository;
 import com.prm.cursosp.resources.exception.FieldMessage;
 
-import javassist.compiler.Parser;
-
 public class ClienteUpdateValidator implements ConstraintValidator<ClienteUpdate, ClienteDTO> {
 	
 	@Autowired
